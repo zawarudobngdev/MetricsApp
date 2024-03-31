@@ -40,9 +40,8 @@ Abra um navegador da web e navegue até `http://localhost:8080` para acessar o a
 
 Após acessar o aplicativo, você pode fazer upload de uma planilha de métricas para visualizar os gráficos de MRR e Churn Rate.
 
-'''
-No momento a aplicação só funcionará corretamente utilizando a planilha específica do desafio ou uma que contenha os mesmos campos, para que os cálculos de MRR e Churn Rate sejam feitos corretamente.
-'''
+> No momento a aplicação só funcionará corretamente utilizando a planilha específica do desafio ou uma que contenha os mesmos campos, para que os cálculos de MRR e Churn Rate sejam feitos corretamente.
+Planilha modelo: [modelo-teste-full-stack](https://docs.google.com/spreadsheets/d/1Tkuj5vtkzZqoGBBnjy6R0F26SX_uCpXSNKU0-ajXMJA)
 
 ## Contribuição
 
