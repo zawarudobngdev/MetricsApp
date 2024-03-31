@@ -38,6 +38,19 @@ def upload_file():
         return jsonify({'error': 'Tipo de arquivo não suportado'}), 400
 
 
+def calculate_mrr(df):
+    # Converte as colunas de datas para o tipo datetime
+    df['data início'] = pd.to_datetime(df['data início'])
+    df['próximo ciclo'] = pd.to_datetime(df['próximo ciclo'])
+
+    # Cria uma coluna para o mês de início de cada assinatura
+    df['mês início'] = df['data início'].dt.to_period('M')
+
+    # Calcular o MRR para cada mês
+    mrr_data = df.groupby('mês início')['valor'].sum().reset_index()
+
+    return mrr_data
+
 
 def calculate_churn_rate(df):
     # Filtrar as assinaturas que foram canceladas
@@ -71,17 +84,8 @@ def get_metrics():
 
         df = pd.read_excel(filepath)
 
-        # Converte as colunas de datas para o tipo datetime, se necessário
-        df['data início'] = pd.to_datetime(df['data início'])
-        df['próximo ciclo'] = pd.to_datetime(df['próximo ciclo'])
-
-        # Cria uma coluna para o mês de início de cada assinatura
-        df['mês início'] = df['data início'].dt.to_period('M')
-
-        # Calcular o MRR para cada mês
-        mrr_data = df.groupby('mês início')['valor'].sum().reset_index()
-
-        # Calcular o churn rate para cada mês
+        # Calcular o mrr and churn rate para cada mês
+        mrr_data = calculate_mrr(df)
         churn_data = calculate_churn_rate(df)
 
         # Converter períodos para strings antes de serializar em JSON
@@ -96,7 +100,7 @@ def get_metrics():
 
         return jsonify(metrics_json), 200
     except Exception as e:
-        traceback.print_exc()  # Isso imprime o traceback completo da exceção no console
+        traceback.print_exc()
         return jsonify({'error': str(e)}), 500
 
 
